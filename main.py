@@ -6,6 +6,7 @@ import pandas as pd
 import helpers.one_hot_encode_reserve_data as ohe
 from data_visualization_functions import injury_cause_type_count, injury_cause_type_by_normalized_incurred
 from svm import run_model
+from univariate_selection import univariate_f_statistic, univariate_pearson
 
 
 def print_hi(name):
@@ -29,4 +30,9 @@ if __name__ == '__main__':
     injury_cause_type_count(injury_cause_df)
 
     injury_cause_type_by_normalized_incurred(injury_cause_df)
+
+    univariate_f_statistic(df)
+
+    univariate_pearson(df)
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
