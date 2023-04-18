@@ -13,24 +13,47 @@
 
 import pandas as pd
 from dython.nominal import associations
-from dython.nominal import identify_nominal_columns
 
-# Read the CSV file into a pandas dataframe
-df = pd.read_csv('../data/Claim_Reserving_Data_UPDATED.csv', nrows=10000)
+# run a complete correlation matrix on the Medical Only claims dataframe on the first 100000 rows
+# The 100000 row limit is to ensure the program runs in a reasonable amount of time on all systems
 
-# test print to verify data is being read
-print(df.head(5))
+# first read in the Medical Only claims data into a dataframe
+df = pd.read_csv('../data/Medical_Only_Claim_Reserving_Data_CLEANED.csv', nrows=100000, encoding='unicode_escape')
 
-# identify categorical variables
-# categorical_features=identify_nominal_columns(df)
+# manually identify categorical variables
+categorical_features=['POLICY_NAICS_SECTOR', 'POLICY_NAICS_CODE', 'POLICY_GOVERNING_CLASS', 'CLAIM_TYPE', 'INJURY_CAUSE', 
+                      'BODY_PART', 'NATURE_OF_INJURY', 'CLASS_CODE','INJURY_STATE', 'JURISDICTION_STATE', 'OCCUPATION']
 
-# test print to verify categorical variables are being identified
-# print(categorical_features)
-
-
-# basic dython correlation matrix creation and display
-# dython automatically identifies categorical variables in the process
-# associations(df)
+# convert LossDate to a datetime object in the dataframe
+df['LossDate'] = pd.to_datetime(df['LossDate'], format= '%m/%d/%Y')
 
 # generate the correlation matrix and save it to a file
-complete_correlation= associations(df, filename= 'complete_correlation.png', figsize=(20,20))
+# complete_correlation= associations(df, nominal_columns=categorical_features, filename= 'medical_all_correlation.png', figsize=(20,20))
+medical_correlation= associations(df, nominal_columns=categorical_features, filename= 'medical_all_correlation.png', title='Medical Only Correlation Matrix - 100k rows')
+
+# In the correlation matrix, SV indicates that the feature has only a single value in the first 100000 rows
+
+# we could check the single value features on a larger sample of the data to see if there is a correlation with the target variable
+# but for now we will just remove the single value features from the data when running the SVM model
+
+
+# run a complete correlation matrix on the Indemnity claims dataframe of all the data
+
+# first read in the Indemnity claims data into the same dataframe object
+df = pd.read_csv('../data/Indemnity_Claim_Reserving_Data_CLEANED.csv', encoding='unicode_escape')
+
+# manually identify categorical variables UNCHANGED
+categorical_features=['POLICY_NAICS_SECTOR', 'POLICY_NAICS_CODE', 'POLICY_GOVERNING_CLASS', 'CLAIM_TYPE', 'INJURY_CAUSE', 
+                      'BODY_PART', 'NATURE_OF_INJURY', 'CLASS_CODE','INJURY_STATE', 'JURISDICTION_STATE', 'OCCUPATION']
+
+# convert LossDate to a datetime object in the dataframe
+df['LossDate'] = pd.to_datetime(df['LossDate'], format= '%m/%d/%Y')
+
+# generate the correlation matrix and save it to a file
+# complete_correlation= associations(df, nominal_columns=categorical_features, filename= 'indemnity_all_correlation.png', figsize=(20,20))
+indemnity_correlation= associations(df, nominal_columns=categorical_features, filename= 'indemnity_all_correlation.png', title='Indemnity Correlation Matrix - 73k rows')
+
+
+
+# print message to verify the files were generated successfully
+print("Files generated successfully")
