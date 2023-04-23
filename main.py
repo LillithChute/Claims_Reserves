@@ -4,9 +4,9 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import pandas as pd
 import helpers.one_hot_encode_reserve_data as ohe
-from data_visualization_functions import injury_cause_type_count, injury_cause_type_by_normalized_incurred
-from svm import run_model
-from univariate_selection import univariate_f_statistic, univariate_pearson
+from visualizations.data_visualization_functions import injury_cause_type_count, injury_cause_type_by_normalized_incurred
+from models.svm import run_model
+from feature_correlation.univariate_selection import univariate_f_statistic, univariate_pearson
 
 
 def print_hi(name):
