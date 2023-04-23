@@ -1,7 +1,3 @@
-# Info from two websites used:
-# http://shakedzy.xyz/dython/
-# https://blog.knoldus.com/how-to-find-correlation-value-of-categorical-variables/#lets-find-the-correlation-of-categorical-variable 
-
 # dython is a Python library that provides a set of functions for data exploration and visualization. 
 # It is built on top of pandas, matplotlib, and other Python libraries.  
 # Specifically designed for data analysis especially for machine learning and data science.
@@ -11,6 +7,12 @@
 # Install on 3/28 using "python -m pip install dython" installed the following versions:
 # contourpy-1.0.7 dython-0.7.3 matplotlib-3.7.1 pandas-1.5.3 psutil-5.9.4 scikit-plot-0.3.7 scipy-1.10.1 seaborn-0.12.2
 
+# Info from two websites used:
+# http://shakedzy.xyz/dython/
+# https://blog.knoldus.com/how-to-find-correlation-value-of-categorical-variables/#lets-find-the-correlation-of-categorical-variable 
+
+
+# needed imports
 import pandas as pd
 from dython.nominal import associations
 
@@ -24,8 +26,9 @@ df = pd.read_csv('../data/Medical_Only_Claim_Reserving_Data_CLEANED.csv', nrows=
 categorical_features=['POLICY_NAICS_SECTOR', 'POLICY_NAICS_CODE', 'POLICY_GOVERNING_CLASS', 'CLAIM_TYPE', 'INJURY_CAUSE', 
                       'BODY_PART', 'NATURE_OF_INJURY', 'CLASS_CODE','INJURY_STATE', 'JURISDICTION_STATE', 'OCCUPATION']
 
-# convert LossDate to a datetime object in the dataframe
+# convert LossDate to a datetime object in the dataframe, then to a numeric value for correlation
 df['LossDate'] = pd.to_datetime(df['LossDate'], format= '%m/%d/%Y')
+df['LossDate'] = pd.to_numeric(df['LossDate'])
 
 # generate the correlation matrix and save it to a file
 # complete_correlation= associations(df, nominal_columns=categorical_features, filename= 'medical_all_correlation.png', figsize=(20,20))
@@ -48,6 +51,8 @@ categorical_features=['POLICY_NAICS_SECTOR', 'POLICY_NAICS_CODE', 'POLICY_GOVERN
 
 # convert LossDate to a datetime object in the dataframe
 df['LossDate'] = pd.to_datetime(df['LossDate'], format= '%m/%d/%Y')
+# then convert to a numeric value for correlation
+df['LossDate'] = pd.to_numeric(df['LossDate'])
 
 # generate the correlation matrix and save it to a file
 # complete_correlation= associations(df, nominal_columns=categorical_features, filename= 'indemnity_all_correlation.png', figsize=(20,20))
