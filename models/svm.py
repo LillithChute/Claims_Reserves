@@ -10,17 +10,17 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
 from math import sqrt
-import one_hot_encode_reserve_data as ohe
+import one_hot_encode as ohe
 # from ..helpers import one_hot_encode_reserve_data as ohe
 # from CLAIMS_RESERVES.helper import one_hot_encode_reserve_data as ohe
 
 
 def run_model(data):
-    # Split data into features and target variable
+    # Split data into features and target variable, which is the adjsuted incurred amount
     X = data.drop('ADJUSTED_INCURRED', axis=1)
     y = data['ADJUSTED_INCURRED']
 
-    # Split data into training and testing sets
+    # Split data into training and testing sets, 70% training and 30% testing
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
     lr = linear_model.LinearRegression()
