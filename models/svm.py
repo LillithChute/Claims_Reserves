@@ -10,11 +10,15 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
 from math import sqrt
+import one_hot_encode_reserve_data as ohe
+# from ..helpers import one_hot_encode_reserve_data as ohe
+# from CLAIMS_RESERVES.helper import one_hot_encode_reserve_data as ohe
+
 
 def run_model(data):
     # Split data into features and target variable
-    X = data.drop('TOTAL_INCURRED', axis=1)
-    y = data['TOTAL_INCURRED']
+    X = data.drop('ADJUSTED_INCURRED', axis=1)
+    y = data['ADJUSTED_INCURRED']
 
     # Split data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
@@ -47,3 +51,11 @@ def run_model(data):
     # # Evaluate model performance using accuracy score
     # accuracy = accuracy_score(y_test, y_pred)
     # print("Accuracy:", accuracy)
+
+if __name__ == '__main__':
+    # Read the CSV file into a pandas dataframe
+    df = pd.read_csv('../data/Indemnity_Data_FINAL.csv', nrows=10000, encoding='unicode_escape')
+
+    model_data = ohe.claims_reserve_ohe(df)
+
+    run_model(model_data)
