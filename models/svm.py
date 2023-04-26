@@ -10,11 +10,22 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
 from math import sqrt
-import one_hot_encode as ohe
-# from ..helpers import one_hot_encode_reserve_data as ohe
-# from CLAIMS_RESERVES.helper import one_hot_encode_reserve_data as ohe
 
 
+# add function to this file to resolve issues with imports
+def claims_reserve_ohe(claims_data):
+
+    claims_data_dropped_columns = claims_data.drop(columns=['POLICY_NAICS_CODE'])
+
+    one_hot_encoded = pd.get_dummies(claims_data_dropped_columns, columns=['INJURY_CAUSE', 'BODY_PART',
+                                                                           'NATURE_OF_INJURY',
+                                                                           'OCCUPATION', 'CLASS_CODE'])
+
+    one_hot_encoded = one_hot_encoded.dropna()
+
+    return one_hot_encoded
+
+# function to create SVM model and evaluate it's results
 def run_model(data):
     # Split data into features and target variable, which is the adjsuted incurred amount
     X = data.drop('ADJUSTED_INCURRED', axis=1)
@@ -56,6 +67,6 @@ if __name__ == '__main__':
     # Read the CSV file into a pandas dataframe
     df = pd.read_csv('../data/Indemnity_Data_FINAL.csv', nrows=10000, encoding='unicode_escape')
 
-    model_data = ohe.claims_reserve_ohe(df)
+    model_data = claims_reserve_ohe(df)
 
     run_model(model_data)

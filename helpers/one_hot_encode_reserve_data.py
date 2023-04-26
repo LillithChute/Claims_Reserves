@@ -15,8 +15,11 @@ def claims_reserve_ohe(claims_data):
     # print(claims_data['NATURE_OF_INJURY'].unique())
     # print(claims_data['NATURE_OF_INJURY'].unique().size)
 
-    claims_data_dropped_columns = claims_data.drop(columns=['INJURY_STATE', 'JURISDICTION_STATE', 'LossDate',
-                                                            'UpdatedDate', 'POLICY_NAICS_SECTOR', 'POLICY_NAICS_CODE'])
+    # claims_data_dropped_columns = claims_data.drop(columns=['INJURY_STATE', 'JURISDICTION_STATE', 'LossDate',
+    #                                                         'UpdatedDate', 'POLICY_NAICS_SECTOR', 'POLICY_NAICS_CODE'])
+
+    # update for revised data file for SVM
+    claims_data_dropped_columns = claims_data.drop(columns=['POLICY_NAICS_CODE'])
 
     # claims_data_dropped_columns = claims_data.dropna()
 
