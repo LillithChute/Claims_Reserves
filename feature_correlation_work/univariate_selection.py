@@ -6,7 +6,6 @@ from sklearn.feature_selection import SelectKBest, chi2, f_classif
 
 
 def univariate_f_statistic(data):
-
     # Fill missing values
     for column in data.columns:
         if column in ["POLICY_NAICS_SECTOR", "POLICY_NAICS_CODE"]:
@@ -15,12 +14,6 @@ def univariate_f_statistic(data):
             data[column].fillna(data[column].median(skipna=True), inplace=True)  # For numeric columns
         else:
             data[column].fillna(data[column].mode(dropna=True).iloc[0], inplace=True)  # For categorical columns
-
-    # Check for remaining NaN values
-    print("Remaining NaN values in the dataset:", data.isna().sum().sum())
-
-    print(data.head())
-    print(data.dtypes)
 
     # Remove constant columns
     data = data.loc[:, data.apply(pd.Series.nunique) != 1]
@@ -40,7 +33,8 @@ def univariate_f_statistic(data):
     features = X.columns
 
     # Visualize the 10 best features and their correlation scores
-    best_features = pd.DataFrame({'Feature': features, 'Score': scores}).sort_values(by='Score', ascending=False).head(10)
+    best_features = pd.DataFrame({'Feature': features, 'Score': scores}).sort_values(by='Score', ascending=False).head(
+        10)
 
     plt.figure(figsize=(10, 5))
     sns.barplot(x='Score', y='Feature', data=best_features)
@@ -51,7 +45,6 @@ def univariate_f_statistic(data):
 
 
 def univariate_pearson(data):
-
     # Fill missing values
     for column in data.columns:
         if column in ["POLICY_NAICS_SECTOR", "POLICY_NAICS_CODE"]:
